@@ -1,0 +1,102 @@
+class Node:
+    def __init__(self, coeff, power):
+        self.coeff = coeff
+        self.power = power
+        self.next = None
+
+class Polynomial:
+    def __init__(self):
+        self.head = None
+
+    # Insert a new term at the end of the linked list
+    def insert(self, coeff, power):
+        new_node = Node(coeff, power)
+        if not self.head:
+            self.head = new_node
+            return
+        temp = self.head
+        while temp.next:
+            temp = temp.next
+        temp.next = new_node
+
+    # Print the polynomial in a readable format
+    def display(self):
+        if not self.head:
+            print("0")
+            return
+        temp = self.head
+        terms = []
+        while temp:
+            if temp.coeff != 0:
+                terms.append(f"{temp.coeff}x^{temp.power}")
+            temp = temp.next
+        print(" + ".join(terms).replace("+ -", "- "))
+
+# Function to get polynomial terms from the user
+def create_polynomial():
+    poly = Polynomial()
+    n = int(input("Enter the number of terms: "))
+    for i in range(n):
+        print(f"\nTerm {i+1}:")
+        coeff = int(input("Enter Coefficient: "))
+        power = int(input("Enter Power: "))
+        poly.insert(coeff, power)
+    return poly
+
+# Function to add two polynomials based on the given algorithm
+def add_polynomials(poly1, poly2):
+    p = poly1.head
+    q = poly2.head
+    result = Polynomial()
+
+    # Step 1: While p and q are not null
+    while p is not None and q is not None:
+        # Step 2: If powers of the two terms are equal
+        if p.power == q.power:
+            sum_coeff = p.coeff + q.coeff
+            if sum_coeff != 0:
+                result.insert(sum_coeff, p.power)
+            p = p.next
+            q = q.next
+        
+        # Step 4: Else if the power of the first polynomial > power of second
+        elif p.power > q.power:
+            result.insert(p.coeff, p.power)
+            p = p.next
+            
+        # Step 4.2: Else insert the term from second polynomial
+        else:
+            result.insert(q.coeff, q.power)
+            q = q.next
+
+    # Step 5: Copy the remaining terms from the non-empty polynomial
+    while p is not None:
+        result.insert(p.coeff, p.power)
+        p = p.next
+
+    while q is not None:
+        result.insert(q.coeff, q.power)
+        q = q.next
+
+    return result
+
+# Main Program Execution
+print("--- Create Polynomial 1 ---")
+poly1 = create_polynomial()
+
+print("\n--- Create Polynomial 2 ---")
+poly2 = create_polynomial()
+
+print("\n-------------------------------------------")
+print("Polynomial 1: ", end="")
+poly1.display()
+
+print("Polynomial 2: ", end="")
+poly2.display()
+
+# Perform Polynomial Addition
+result_poly = add_polynomials(poly1, poly2)
+
+print("\nResultant Polynomial: ", end="")
+result_poly.display()
+print("-------------------------------------------")
