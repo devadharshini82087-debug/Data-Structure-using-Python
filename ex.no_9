@@ -37,19 +37,15 @@ class AVLTree:
     def insert(self, root, enrollment_id, name):
         if root is None:
             return Node(enrollment_id, name)
-
         if enrollment_id < root.id:
             root.left = self.insert(root.left, enrollment_id, name)
-
         elif enrollment_id > root.id:
             root.right = self.insert(root.right, enrollment_id, name)
-
         else:
             print("Enrollment ID already exists!")
             return root
         root.height = 1 + max(self.height(root.left),
                               self.height(root.right))
-
         balance = self.get_balance(root)
         if balance > 1 and enrollment_id < root.left.id:
             return self.right_rotate(root)
