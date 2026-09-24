@@ -1,0 +1,24 @@
+n = int(input("Enter number of users: "))
+matrix = [[0 for _ in range(n)] for _ in range(n)]
+adj_list = [[] for _ in range(n)]
+e = int(input("Enter number of connections: "))
+for i in range(e):
+    u, v = map(int, input("Enter connection: ").split())
+    matrix[u][v] = 1
+    matrix[v][u] = 1
+    adj_list[u].append(v)
+    adj_list[v].append(u)
+print("\nAdjacency Matrix:")
+for row in matrix:
+    print(*row)
+print("\nAdjacency List:")
+for i in range(n):
+    print(i, "->", adj_list[i])
+print("\nDegree of each user:")
+for i in range(n):
+    print("User", i, ":", len(adj_list[i]))
+u, v = map(int, input("\nEnter two users to check connection: ").split())
+if matrix[u][v] == 1:
+    print("Users are directly connected")
+else:
+    print("Users are not directly connected")
