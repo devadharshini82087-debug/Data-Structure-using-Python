@@ -1,0 +1,15 @@
+n = int(input("Enter number of students: "))
+roll = list(map(int, input("Enter roll numbers in sorted order: ").split()))
+key = int(input("Enter roll number to search: "))
+
+found = False
+
+for i in range(n):
+    if roll[i] == key:
+        found = True
+        break
+
+if found:
+    print("Linear search: Roll number found")
+else:
+    print("Linear search: Roll number not found")
